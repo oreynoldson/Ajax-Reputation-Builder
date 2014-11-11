@@ -39,8 +39,7 @@ var getUnanswered = function(tags) {
 		data: request,
 		dataType: "jsonp",
 		type: "GET",
-		})
-		result
+		})  
 	.done(function(result){
 		console.log(result);
 		var searchResults = showSearchResults(request.tagged, result.items.length);
@@ -85,35 +84,32 @@ var getInspiration = function(tags2) {
 		data: request2, 
 		dataType: "jsonp",
 		type: "GET",
-		success: function(inspiration_object){
-			//allow to see the object returned in the console
-			console.log(inspiration_object);
+		})
+	.done(function(inspiration_object){
+		//allow to see the object returned in the console
+		console.log(inspiration_object);
 
-			//additional info like the tags the user input and items returned 
-			var searchResults = showSearchResults(request2.tag, inspiration_object.items.length);
+		//additional info like the tags the user input and items returned 
+		var searchResults = showSearchResults(request2.tag, inspiration_object.items.length);
 
-			//append additional search info to div in the DOM
-			$('.search-results').html(searchResults);
+		//append additional search info to div in the DOM
+		$('.search-results').html(searchResults);
 
-			//use each to itterate throught the objects within items array, 
-			//within the object returned from the ajax call
-			$.each(inspiration_object.items, function(index, item){
-				//calls showinspiration function where info from
-				// objects are appended to the DOM
-				var inspiration_returned = showInspiration(item);
-				//appends the results to the results div
-				$(".results").append(inspiration_returned);
-			});
-		}//end of success
-
-		// .fail(function(jqXHR, error, errorThrown){
-		// 	var errorElem = showError(error);
-		// 	$('.search-results').append(errorElem);
-		// })
-	});
-	
-
-};
+		//use each to itterate throught the objects within items array, 
+		//within the object returned from the ajax call
+		$.each(inspiration_object.items, function(index, item){
+			//calls showinspiration function where info from
+			// objects are appended to the DOM
+			var inspiration_returned = showInspiration(item);
+			//appends the results to the results div
+			$(".results").append(inspiration_returned);
+		});
+	})//end of success
+		.fail(function(jqXHR, error, errorThrown){
+			var errorElem = showError(error);
+			$('.search-results').append(errorElem);
+		})
+};//end of getInspiration function
 
 /**********************************
 ADDING DATA FROM REQUEST TO THE DOM
